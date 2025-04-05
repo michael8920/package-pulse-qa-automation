@@ -1,0 +1,36 @@
+{
+  "name": "package-pulse-qa-automation",
+  "version": "1.0.0",
+  "description": "Comprehensive QA automation testing suite for Package Pulse (JSPackagePulse) web application. Built with Playwright, TypeScript, and modern testing practices. Features E2E tests, performance metrics, and CI/CD integration.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michael8920/package-pulse-qa-automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michael8920/package-pulse-qa-automation/issues"
+  },
+  "homepage": "https://github.com/michael8920/package-pulse-qa-automation#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.29.0",
+    "@typescript-eslint/parser": "^8.29.0",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.6",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  }
+}
