@@ -7,6 +7,7 @@
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
+    "test:smoke": "playwright test tests/smoke",
     "report": "playwright show-report",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write ."
