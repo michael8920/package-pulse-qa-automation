@@ -39,12 +39,13 @@ test.describe('Project analysis flow tests', () => {
 
     await homePage.packageCard.changeTimePeriod(TimePeriod.SIX_MONTHS);
 
-    const xAxisValues = await homePage.packageCard.getChartAxisValues('x');
-
     expect(await homePage.packageCard.getTimePeriodOption()).not.toBe(initialPeriod);
     expect(await homePage.packageCard.getTimePeriodOption()).toBe(TimePeriod.SIX_MONTHS);
 
     const sixMonthsRange = await homePage.packageCard.areDatesInMonthRange('6 months');
     expect(sixMonthsRange).toBeTruthy();
+
+    const oneYearRange = await homePage.packageCard.areDatesInYearRange('1 year');
+    expect(oneYearRange).toBeTruthy();
   });
 });
