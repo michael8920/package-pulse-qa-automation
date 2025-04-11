@@ -4,4 +4,5 @@ export const TAGS = {
   PERFORMANCE: '@performance',
   VISUAL: '@visual',
   REGRESSION: '@regression',
+  BUGGED: '@bugged',
 } as const;
