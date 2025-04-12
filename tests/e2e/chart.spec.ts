@@ -48,4 +48,36 @@ test.describe('Project analysis flow tests', () => {
     const oneYearRange = await homePage.packageCard.areDatesInYearRange('1 year');
     expect(oneYearRange).toBeTruthy();
   });
+
+  test('Time period can be successfully changed to 5 years', async ({ page }) => {
+    await homePage.searchBar.selectProject('react');
+
+    await expect(homePage.packageCard.isTimePeriodVisible()).resolves.toBeTruthy();
+    const initialPeriod = await homePage.packageCard.getTimePeriodOption();
+
+    await homePage.packageCard.changeTimePeriod(TimePeriod.FIVE_YEARS);
+
+    expect(await homePage.packageCard.getTimePeriodOption()).not.toBe(initialPeriod);
+    expect(await homePage.packageCard.getTimePeriodOption()).toBe(TimePeriod.FIVE_YEARS);
+
+    const fiveYearsRange = await homePage.packageCard.areDatesInYearRange('5 years');
+    expect(fiveYearsRange).toBeTruthy();
+  });
+
+  test('Details pop up shows correct information on chart mouse hover', async ({ page }) => {
+    await homePage.searchBar.selectProject('react');
+    await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
+
+    await page.mouse.move(0, 0);
+    await expect(homePage.packageCard.isTooltipVisible()).resolves.toBeFalsy();
+
+    await homePage.packageCard.moveToChartCenter();
+    await expect(homePage.packageCard.isTooltipVisible()).resolves.toBeTruthy();
+
+    const details = await homePage.packageCard.getTooltipDetails();
+
+    expect(details.packageName).toBe('react');
+    expect(details.downloads).toBeGreaterThanOrEqual(0);
+    expect(homePage.packageCard.isValidDateFormat(details.date)).toBeTruthy();
+  });
 });

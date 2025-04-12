@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 import { unwatchFile } from 'fs';
+import { parse } from 'path';
 
 export enum TimePeriod {
   ALL_TIME = 'All time',
@@ -10,7 +11,11 @@ export enum TimePeriod {
   TWO_YEARS = '2 years',
   FIVE_YEARS = '5 years',
 }
-
+interface TooltipDetails {
+  date: string;
+  packageName: string;
+  downloads: number;
+}
 export class PackageCard {
   private page: Page;
 
@@ -29,7 +34,14 @@ export class PackageCard {
       app: '[role="application"]',
       xAxisContainer: '.recharts-layer.recharts-cartesian-axis.recharts-xAxis.xAxis',
       yAxisContainer: '.recharts-layer.recharts-cartesian-axis.recharts-yAxis.yAxis',
-      axisTickValue: 'recharts-text recharts-cartesian-axis-tick-value',
+      tooltip: {
+        container: '.recharts-tooltip-wrapper',
+        content: {
+          downloads: 'span.font-mono.font-medium.tabular-nums.text-foreground',
+          name: 'span.text-muted-foreground',
+          date: 'div.font-medium',
+        },
+      },
     },
     toggleStats: {
       stats: { role: 'radio', name: 'Toggle stats' },
@@ -53,7 +65,10 @@ export class PackageCard {
   private readonly chart: Locator;
   private readonly xAxisContainer: Locator;
   private readonly yAxisContainer: Locator;
-  private readonly axisTickValue: Locator;
+  private readonly tooltipContainer: Locator;
+  private readonly tooltipName: Locator;
+  private readonly tooltipDownloads: Locator;
+  private readonly tooltipDate: Locator;
 
   private readonly toggleStatsButton: Locator;
   private readonly toggleInfoButton: Locator;
@@ -88,7 +103,10 @@ export class PackageCard {
     this.chart = this.page.locator(PackageCard.SELECTORS.chart.app);
     this.xAxisContainer = this.page.locator(PackageCard.SELECTORS.chart.xAxisContainer);
     this.yAxisContainer = this.page.locator(PackageCard.SELECTORS.chart.yAxisContainer);
-    this.axisTickValue = this.page.locator(PackageCard.SELECTORS.chart.axisTickValue);
+    this.tooltipContainer = this.page.locator(PackageCard.SELECTORS.chart.tooltip.container);
+    this.tooltipName = this.page.locator(PackageCard.SELECTORS.chart.tooltip.content.name);
+    this.tooltipDownloads = this.page.locator(PackageCard.SELECTORS.chart.tooltip.content.downloads);
+    this.tooltipDate = this.page.locator(PackageCard.SELECTORS.chart.tooltip.content.date);
 
     this.toggleStatsButton = this.page.getByRole(PackageCard.SELECTORS.toggleStats.stats.role, {
       name: PackageCard.SELECTORS.toggleStats.stats.name,
@@ -303,5 +321,87 @@ export class PackageCard {
     } catch (error) {
       throw new Error(`Could not check if the dates are in range: ${error}`);
     }
+  }
+
+  async isTooltipVisible(): Promise<boolean> {
+    try {
+      const isPresent = (await this.tooltipContainer.count()) > 0;
+      if (!isPresent) return false;
+
+      const visibility = await this.tooltipContainer.evaluate((el) => window.getComputedStyle(el).visibility);
+
+      const isVisible = await this.tooltipContainer.isVisible();
+
+      return isVisible && visibility === 'visible';
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async areTooltipDetailsVisible(): Promise<boolean> {
+    try {
+      await this.tooltipDate.waitFor({ state: 'visible', timeout: 5000 });
+      await this.tooltipName.waitFor({ state: 'visible', timeout: 5000 });
+      await this.tooltipDownloads.waitFor({ state: 'visible', timeout: 5000 });
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async getTooltipDetails(): Promise<TooltipDetails> {
+    try {
+      await this.tooltipContainer.waitFor({ state: 'visible', timeout: 5000 });
+
+      const date = (await this.tooltipDate.textContent()) || '';
+      const rawDownloads = (await this.tooltipDownloads.textContent()) || '';
+      const packageName = (await this.tooltipName.textContent()) || '';
+
+      if (!packageName.trim()) {
+        throw new Error('Package name is missing');
+      }
+
+      const parsedDownloads = parseInt(rawDownloads.replace(/,/g, ''), 10);
+      if (isNaN(parsedDownloads)) {
+        throw new Error(`Invalid downloads format: ${rawDownloads}`);
+      }
+
+      const details: TooltipDetails = {
+        date,
+        packageName,
+        downloads: parsedDownloads,
+      };
+
+      if (!details.date) throw new Error('Date is missing');
+      if (!details.packageName) throw new Error('Package name is missing');
+      if (!details.downloads) throw new Error('Downloads cannot be negative');
+
+      return details;
+    } catch (error) {
+      throw new Error(`Could not get tooltip details: ${error}`);
+    }
+  }
+
+  async moveToChartCenter(): Promise<void> {
+    try {
+      await this.chart.waitFor({ state: 'visible', timeout: 5000 });
+
+      const box = await this.chart.boundingBox();
+
+      if (!box) {
+        throw new Error(`Could not get element boundaries`);
+      }
+
+      const centerX = box.x + box.width / 2;
+      const centerY = box.y + box.height / 2;
+
+      await this.page.mouse.move(centerX, centerY, { steps: 10 });
+    } catch (error) {
+      throw new Error(`Could not move cursor to chart center: ${error}`);
+    }
+  }
+
+  isValidDateFormat(date: string): boolean {
+    return /^\d{4}-\d{2}-\d{2}$/.test(date) && !isNaN(Date.parse(date));
   }
 }
