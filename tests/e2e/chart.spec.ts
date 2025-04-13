@@ -80,4 +80,36 @@ test.describe('Project analysis flow tests', () => {
     expect(details.downloads).toBeGreaterThanOrEqual(0);
     expect(homePage.packageCard.isValidDateFormat(details.date)).toBeTruthy();
   });
+
+  test('Details pop up correctly updates information on mouse position change', async ({ page }) => {
+    await homePage.searchBar.selectProject('react');
+    await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
+
+    await homePage.packageCard.moveToChartCenter();
+    await expect(homePage.packageCard.isTooltipVisible()).resolves.toBeTruthy();
+    const initialDetails = await homePage.packageCard.getTooltipDetails();
+
+    await homePage.packageCard.moveMouseOnChart(40, 0);
+    await expect(homePage.packageCard.isTooltipVisible()).resolves.toBeTruthy();
+    const newestDetails = await homePage.packageCard.getTooltipDetails();
+
+    expect(homePage.packageCard.parseDate(newestDetails.date).getTime()).toBeGreaterThan(
+      homePage.packageCard.parseDate(initialDetails.date).getTime(),
+    );
+    expect(newestDetails.packageName).toBe(initialDetails.packageName);
+    expect(newestDetails.downloads).toBeGreaterThanOrEqual(0);
+
+    await homePage.packageCard.moveMouseOnChart(-80, 0);
+    await expect(homePage.packageCard.isTooltipVisible()).resolves.toBeTruthy();
+    const oldestDetails = await homePage.packageCard.getTooltipDetails();
+
+    expect(homePage.packageCard.parseDate(oldestDetails.date).getTime()).toBeLessThan(
+      homePage.packageCard.parseDate(newestDetails.date).getTime(),
+    );
+    expect(homePage.packageCard.parseDate(oldestDetails.date).getTime()).toBeLessThan(
+      homePage.packageCard.parseDate(initialDetails.date).getTime(),
+    );
+    expect(oldestDetails.packageName).toBe(initialDetails.packageName);
+    expect(oldestDetails.downloads).toBeGreaterThanOrEqual(0);
+  });
 });

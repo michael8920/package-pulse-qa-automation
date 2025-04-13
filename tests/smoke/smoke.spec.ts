@@ -28,6 +28,8 @@ test.describe('Smoke tests', { tag: TAGS.SMOKE }, () => {
   test('Searching for project can be performed successfully', async ({ page }) => {
     await homePage.searchBar.selectProject('test');
 
+    await page.waitForURL('**/?projects=test');
+
     const currentUrl = await homePage.getCurrentUrl();
     expect(currentUrl).toBe(`https://www.package-pulse.com/?projects=test`);
 

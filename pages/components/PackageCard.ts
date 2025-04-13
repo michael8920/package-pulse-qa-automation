@@ -401,7 +401,31 @@ export class PackageCard {
     }
   }
 
+  async moveMouseOnChart(offsetX: number = 0, offsetY: number = 0): Promise<void> {
+    try {
+      await this.chart.waitFor({ state: 'visible', timeout: 5000 });
+
+      const box = await this.chart.boundingBox();
+      if (!box) {
+        throw new Error(`Could not get element boundaries`);
+      }
+      const centerX = box.x + box.width / 2;
+      const centerY = box.y + box.height / 2;
+
+      await this.page.mouse.move(centerX + offsetX, centerY + offsetY, { steps: 10 });
+    } catch (error) {
+      throw new Error(`Could not move cursor on the chart: ${error}`);
+    }
+  }
+
   isValidDateFormat(date: string): boolean {
     return /^\d{4}-\d{2}-\d{2}$/.test(date) && !isNaN(Date.parse(date));
+  }
+
+  parseDate(dateString: string): Date {
+    if (!this.isValidDateFormat(dateString)) {
+      throw new Error(`Invalid date format: ${dateString}`);
+    }
+    return new Date(dateString);
   }
 }
