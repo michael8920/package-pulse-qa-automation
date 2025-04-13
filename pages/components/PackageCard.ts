@@ -203,7 +203,7 @@ export class PackageCard {
   async getTimePeriodOption(): Promise<string> {
     try {
       await this.timePeriodButton.waitFor({ state: 'visible', timeout: 5000 });
-      return this.timePeriodButton.innerText();
+      return (await this.timePeriodButton.innerText()).trim();
     } catch (error) {
       throw new Error(`Could not get the current time period option: ${error}`);
     }
