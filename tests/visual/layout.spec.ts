@@ -13,6 +13,8 @@ test.describe('Visual Regression Tests', () => {
   });
 
   test('Chart layout remains consistent', async ({ page, browserName }) => {
+    test.skip(browserName === 'firefox', 'Skipping Firefox due to rendering differences');
+
     await homePage.searchBar.selectProject('react');
     await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
 
@@ -26,12 +28,12 @@ test.describe('Visual Regression Tests', () => {
       mask: [tooltipElement],
       animations: 'disabled',
       timeout: 5000,
-      maxDiffPixelRatio: 0.2,
-      threshold: 0.3,
     });
   });
 
   test('Tooltip visual appearance remains consistent', async ({ page, browserName }) => {
+    test.skip(browserName === 'firefox', 'Skipping Firefox due to rendering differences');
+
     await homePage.searchBar.selectProject('react');
 
     await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
@@ -45,8 +47,6 @@ test.describe('Visual Regression Tests', () => {
     await expect(tooltipElement).toHaveScreenshot(`tooltip-default.png`, {
       animations: 'disabled',
       timeout: 5000,
-      maxDiffPixelRatio: 0.2,
-      threshold: 0.3,
     });
   });
 });
