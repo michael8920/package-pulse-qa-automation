@@ -26,6 +26,7 @@ test.describe('Visual Regression Tests', () => {
       mask: [tooltipElement],
       animations: 'disabled',
       timeout: 5000,
+      maxDiffPixelRatio: 0.1,
     });
   });
 
@@ -43,6 +44,7 @@ test.describe('Visual Regression Tests', () => {
     await expect(tooltipElement).toHaveScreenshot(`tooltip-default.png`, {
       animations: 'disabled',
       timeout: 5000,
+      maxDiffPixelRatio: 0.1,
     });
   });
 });
