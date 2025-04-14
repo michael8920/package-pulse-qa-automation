@@ -12,7 +12,7 @@ test.describe('Visual Regression Tests', () => {
     await prepareForVisualTest(page);
   });
 
-  test('Chart layout remains consistent', async ({ page }) => {
+  test('Chart layout remains consistent', async ({ page, browserName }) => {
     await homePage.searchBar.selectProject('react');
     await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
 
@@ -22,14 +22,14 @@ test.describe('Visual Regression Tests', () => {
     const chartElement = await homePage.packageCard.getElement(PackageCardElement.CHART);
     const tooltipElement = await homePage.packageCard.getElement(PackageCardElement.TOOLTIP);
 
-    await expect(chartElement).toHaveScreenshot('chart-default.png', {
+    await expect(chartElement).toHaveScreenshot(`chart-default-${browserName}-${process.platform}.png`, {
       mask: [tooltipElement],
       animations: 'disabled',
       timeout: 5000,
     });
   });
 
-  test('Tooltip visual appearance remains consistent', async ({ page }) => {
+  test('Tooltip visual appearance remains consistent', async ({ page, browserName }) => {
     await homePage.searchBar.selectProject('react');
 
     await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
@@ -40,6 +40,9 @@ test.describe('Visual Regression Tests', () => {
     await expect(tooltipElement).toBeVisible();
     await expect(tooltipElement).not.toBeEmpty();
 
-    await expect(tooltipElement).toHaveScreenshot('tooltip-default.png', { animations: 'disabled', timeout: 5000 });
+    await expect(tooltipElement).toHaveScreenshot(`tooltip-default-${browserName}-${process.platform}.png`, {
+      animations: 'disabled',
+      timeout: 5000,
+    });
   });
 });

@@ -3,10 +3,12 @@
 node_modules/
 /test-results/
 /playwright-report/
-**/tests/visual/**/*.png
-**/tests/visual/snapshots/
 /blob-report/
 /playwright/.cache/
 *.log
 .env
+*.png
+!tests/visual/snapshots/**/*.png
+!tests/visual/snapshots/.gitkeep
+
 
