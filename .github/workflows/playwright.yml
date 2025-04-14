@@ -15,7 +15,7 @@ jobs:
           node-version: lts/*
 
       - name: Cache snapshots
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: tests/visual/snapshots
           key: snapshots-${{github.sha}}
