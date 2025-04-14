@@ -11,6 +11,15 @@ export enum TimePeriod {
   TWO_YEARS = '2 years',
   FIVE_YEARS = '5 years',
 }
+
+export enum PackageCardElement {
+  CHART = 'chart',
+  TOOLTIP = 'tooltip',
+  TIME_PERIOD = 'timePeriod',
+  INFO_BUTTON = 'infoButton',
+  STATS_BUTTON = 'statsButton',
+  TABLE = 'table',
+}
 interface TooltipDetails {
   date: string;
   packageName: string;
@@ -427,5 +436,30 @@ export class PackageCard {
       throw new Error(`Invalid date format: ${dateString}`);
     }
     return new Date(dateString);
+  }
+
+  async getElement(elementType: PackageCardElement): Promise<Locator> {
+    try {
+      const elementMap: Record<PackageCardElement, Locator> = {
+        [PackageCardElement.CHART]: this.chart,
+        [PackageCardElement.INFO_BUTTON]: this.toggleInfoButton,
+        [PackageCardElement.STATS_BUTTON]: this.toggleStatsButton,
+        [PackageCardElement.TABLE]: this.tableContainer,
+        [PackageCardElement.TIME_PERIOD]: this.timePeriodButton,
+        [PackageCardElement.TOOLTIP]: this.tooltipContainer,
+      };
+
+      const element = elementMap[elementType];
+
+      if (!element) {
+        throw new Error(`Element type ${elementType} not found`);
+      }
+
+      await element.waitFor({ state: 'visible', timeout: 5000 });
+
+      return element;
+    } catch (error) {
+      throw new Error(`Could not get element ${elementType}: ${error}`);
+    }
   }
 }

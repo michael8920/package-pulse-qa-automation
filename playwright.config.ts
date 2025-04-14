@@ -32,6 +32,16 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
+  expect: {
+    timeout: 10000,
+    toHaveScreenshot: {
+      maxDiffPixels: 100,
+      threshold: 0.2,
+    },
+  },
+
+  snapshotDir: 'tests/visual/snapshots',
+
   /* Configure projects for major browsers */
   projects: [
     {

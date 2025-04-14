@@ -13,15 +13,27 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+
+      - name: Cache snapshots
+        uses: actions/cache@v2
+        with:
+          path: tests/visual/snapshots
+          key: snapshots-${{github.sha}}
+          restore-keys: snapshots-
+
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npx playwright test
+
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: playwright-report/
+          path: |
+            playwright-report/
+            test-results/
+            tests/visual/snapshots/
           retention-days: 30
