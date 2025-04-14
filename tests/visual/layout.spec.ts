@@ -22,7 +22,7 @@ test.describe('Visual Regression Tests', () => {
     const chartElement = await homePage.packageCard.getElement(PackageCardElement.CHART);
     const tooltipElement = await homePage.packageCard.getElement(PackageCardElement.TOOLTIP);
 
-    await expect(chartElement).toHaveScreenshot(`chart-default-${browserName}-${process.platform}.png`, {
+    await expect(chartElement).toHaveScreenshot(`chart-default.png`, {
       mask: [tooltipElement],
       animations: 'disabled',
       timeout: 5000,
@@ -40,7 +40,7 @@ test.describe('Visual Regression Tests', () => {
     await expect(tooltipElement).toBeVisible();
     await expect(tooltipElement).not.toBeEmpty();
 
-    await expect(tooltipElement).toHaveScreenshot(`tooltip-default-${browserName}-${process.platform}.png`, {
+    await expect(tooltipElement).toHaveScreenshot(`tooltip-default.png`, {
       animations: 'disabled',
       timeout: 5000,
     });
