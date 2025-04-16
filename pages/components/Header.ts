@@ -1,5 +1,8 @@
 import { Page, Locator } from '@playwright/test';
 
+export enum HeaderElement {
+  CONTAINER = 'container',
+}
 export class Header {
   private page: Page;
 
@@ -77,6 +80,35 @@ export class Header {
       return colorScheme;
     } catch (error) {
       throw new Error(`Failed to get current theme: ${error}`);
+    }
+  }
+
+  async isHeaderVisible(): Promise<boolean> {
+    try {
+      await this.headerContainer.waitFor({ state: 'visible', timeout: 5000 });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async getElement(elementType: HeaderElement): Promise<Locator> {
+    try {
+      const elementMap: Record<HeaderElement, Locator> = {
+        [HeaderElement.CONTAINER]: this.headerContainer,
+      };
+
+      const element = elementMap[elementType];
+
+      if (!element) {
+        throw new Error(`Element type ${elementType} not found`);
+      }
+
+      await element.waitFor({ state: 'visible', timeout: 5000 });
+
+      return element;
+    } catch (error) {
+      throw new Error(`Could not get element ${elementType}: ${error}`);
     }
   }
 }

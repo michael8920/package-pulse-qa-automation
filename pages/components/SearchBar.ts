@@ -1,10 +1,18 @@
 import { Page, Locator } from '@playwright/test';
 
+export enum SearchBarElement {
+  CONTAINER = 'container',
+  INPUT = 'input',
+  DROPDOWN = 'dropdown',
+  RESULTS = 'results',
+  NO_RESULTS = 'no results',
+}
 export class SearchBar {
   private page: Page;
 
   private static readonly SELECTORS = {
     searchBar: {
+      container: 'form.flex.flex-col.gap-4',
       input: '#search',
       dropdown: '[role="listbox"]',
       results: '[role="option"]',
@@ -13,6 +21,7 @@ export class SearchBar {
   } as const;
 
   // Locators
+  private readonly searchBarContainer: Locator;
   private readonly inputField: Locator;
   private readonly projectsDropdown: Locator;
   private readonly searchResults: Locator;
@@ -25,6 +34,40 @@ export class SearchBar {
     this.projectsDropdown = this.page.locator(SearchBar.SELECTORS.searchBar.dropdown);
     this.searchResults = this.page.locator(SearchBar.SELECTORS.searchBar.results);
     this.emptySearch = this.page.locator(SearchBar.SELECTORS.searchBar.noResults);
+    this.searchBarContainer = this.page.locator(SearchBar.SELECTORS.searchBar.container);
+  }
+
+  async getElement(elementType: SearchBarElement): Promise<Locator> {
+    try {
+      const elementMap: Record<SearchBarElement, Locator> = {
+        [SearchBarElement.INPUT]: this.inputField,
+        [SearchBarElement.DROPDOWN]: this.projectsDropdown,
+        [SearchBarElement.RESULTS]: this.searchResults,
+        [SearchBarElement.NO_RESULTS]: this.emptySearch,
+        [SearchBarElement.CONTAINER]: this.searchBarContainer,
+      };
+
+      const element = elementMap[elementType];
+
+      if (!element) {
+        throw new Error(`Element type ${elementType} not found`);
+      }
+
+      await element.waitFor({ state: 'visible', timeout: 5000 });
+
+      return element;
+    } catch (error) {
+      throw new Error(`Could not get element ${elementType}: ${error}`);
+    }
+  }
+
+  async isSearchBarVisible(): Promise<boolean> {
+    try {
+      await this.searchBarContainer.waitFor({ state: 'visible', timeout: 5000 });
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   async searchForProject(name: string): Promise<Locator> {

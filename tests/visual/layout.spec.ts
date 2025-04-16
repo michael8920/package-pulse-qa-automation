@@ -3,7 +3,7 @@ import { HomePage } from '../../pages/HomePage';
 import { PackageCardElement } from '../../pages/components/PackageCard';
 import { prepareForVisualTest } from '../../utils/visualTestHelpers';
 
-test.describe('Visual Regression Tests', () => {
+test.describe('Layout visual regression tests', () => {
   let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {
