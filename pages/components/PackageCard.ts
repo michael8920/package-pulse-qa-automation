@@ -58,6 +58,12 @@ export class PackageCard {
     },
     table: {
       container: 'table',
+      head: 'thead',
+      body: 'tbody',
+      nominalValue: '[data-value-type="nominal"]',
+      percentageValue: '[data-value-type="percentage"]',
+      greenArrow: '↑',
+      redArrow: '↓',
     },
   } as const;
 
@@ -81,7 +87,10 @@ export class PackageCard {
 
   private readonly toggleStatsButton: Locator;
   private readonly toggleInfoButton: Locator;
+
   private readonly tableContainer: Locator;
+  private readonly tableHead: Locator;
+  private readonly tableBody: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -125,6 +134,8 @@ export class PackageCard {
     });
 
     this.tableContainer = this.page.locator(PackageCard.SELECTORS.table.container);
+    this.tableBody = this.page.locator(PackageCard.SELECTORS.table.body);
+    this.tableHead = this.page.locator(PackageCard.SELECTORS.table.head);
   }
 
   async isTimePeriodVisible(): Promise<boolean> {
@@ -460,6 +471,34 @@ export class PackageCard {
       return element;
     } catch (error) {
       throw new Error(`Could not get element ${elementType}: ${error}`);
+    }
+  }
+
+  async getTableValueLocators(): Promise<Locator[]> {
+    try {
+      await this.tableBody.waitFor({ state: 'visible', timeout: 5000 });
+
+      const nominalLocators = await this.tableBody.locator(`${PackageCard.SELECTORS.table.nominalValue}`).all();
+      const percentageLocators = await this.tableBody.locator(`${PackageCard.SELECTORS.table.percentageValue}`).all();
+
+      const locators = [...nominalLocators, ...percentageLocators];
+      return locators;
+    } catch (error) {
+      throw new Error(`Could not get table value locators: ${error}`);
+    }
+  }
+
+  async getTableArrowLocators(): Promise<Locator[]> {
+    try {
+      await this.tableBody.waitFor({ state: 'visible', timeout: 5000 });
+
+      const greenArrows = await this.tableBody.getByText(`${PackageCard.SELECTORS.table.greenArrow}`).all();
+      const redArrows = await this.tableBody.getByText(`${PackageCard.SELECTORS.table.redArrow}`).all();
+
+      const arrows = [...greenArrows, ...redArrows];
+      return arrows;
+    } catch (error) {
+      throw new Error(`Could not get table arrow locators: ${error}`);
     }
   }
 }
