@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { getLoadMetrics } from './utils/metrics';
 import { performanceBudgets } from './config/budgets';
 import { HomePage } from '../../pages/HomePage';
+import { PACKAGES } from '../../utils/constants';
 
 test.use({ browserName: 'chromium' });
 
@@ -26,11 +27,11 @@ test.describe('Page Load Performance', () => {
   test('Page with project details meets performance budgets', async ({ page }) => {
     await page.goto('/');
 
-    await homePage.searchBar.selectProject('react');
+    await homePage.searchBar.selectProject(PACKAGES.react);
     await page.waitForLoadState('networkidle');
 
-    expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy;
-    expect(homePage.packageCard.isTableVisible()).resolves.toBeTruthy;
+    await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
+    await expect(homePage.packageCard.isTableVisible()).resolves.toBeTruthy();
 
     const metrics = await getLoadMetrics(page);
 
@@ -42,18 +43,18 @@ test.describe('Page Load Performance', () => {
 
   test('Page with two project details meets performance budgets', async ({ page }) => {
     await page.goto('/');
-    await homePage.searchBar.selectProject('react');
+    await homePage.searchBar.selectProject(PACKAGES.react);
     await page.waitForLoadState('networkidle');
     await page.click('body', { position: { x: 0, y: 0 } });
 
-    expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy;
-    expect(homePage.packageCard.isTableVisible()).resolves.toBeTruthy;
+    await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
+    await expect(homePage.packageCard.isTableVisible()).resolves.toBeTruthy();
 
-    await homePage.searchBar.selectProject('vue');
+    await homePage.searchBar.selectProject(PACKAGES.vue);
     await page.waitForLoadState('networkidle');
 
-    expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy;
-    expect(homePage.packageCard.isTableVisible()).resolves.toBeTruthy;
+    await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
+    await expect(homePage.packageCard.isTableVisible()).resolves.toBeTruthy();
 
     const multiProjectMetrics = await getLoadMetrics(page);
 
