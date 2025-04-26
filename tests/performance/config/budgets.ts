@@ -8,5 +8,7 @@ export const performanceBudgets = {
   resources: {
     maxRequests: 50, // Maximum number of requests
     totalSize: 1.5 * 1024 * 1024, // 1.5MB total size
+    maxAssetSize: 1 * 1024 * 1024, // 1MB per asset
+    allowedStatusCodes: [200, 304], // Success and cached
   },
 };
