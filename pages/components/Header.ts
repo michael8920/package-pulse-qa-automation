@@ -1,4 +1,5 @@
 import { Page, Locator } from '@playwright/test';
+import { TIMEOUTS } from '../../utils/constants';
 
 export enum HeaderElement {
   CONTAINER = 'container',
@@ -85,7 +86,7 @@ export class Header {
 
   async isHeaderVisible(): Promise<boolean> {
     try {
-      await this.headerContainer.waitFor({ state: 'visible', timeout: 5000 });
+      await this.headerContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch {
       return false;
@@ -104,7 +105,7 @@ export class Header {
         throw new Error(`Element type ${elementType} not found`);
       }
 
-      await element.waitFor({ state: 'visible', timeout: 5000 });
+      await element.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       return element;
     } catch (error) {

@@ -1,6 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 import { unwatchFile } from 'fs';
 import { parse } from 'path';
+import { TIMEOUTS } from '../../utils/constants';
 
 export enum TimePeriod {
   ALL_TIME = 'All time',
@@ -140,7 +141,7 @@ export class PackageCard {
 
   async isTimePeriodVisible(): Promise<boolean> {
     try {
-      await this.timePeriodButton.waitFor({ state: 'visible', timeout: 5000 });
+      await this.timePeriodButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch {
       return false;
@@ -149,7 +150,7 @@ export class PackageCard {
 
   async isChartVisible(): Promise<boolean> {
     try {
-      await this.chart.waitFor({ state: 'visible', timeout: 5000 });
+      await this.chart.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch {
       return false;
@@ -158,7 +159,7 @@ export class PackageCard {
 
   async isStatsButtonVisible(): Promise<boolean> {
     try {
-      await this.toggleStatsButton.waitFor({ state: 'visible', timeout: 5000 });
+      await this.toggleStatsButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch {
       return false;
@@ -167,7 +168,7 @@ export class PackageCard {
 
   async isInfoButtonVisible(): Promise<boolean> {
     try {
-      await this.toggleInfoButton.waitFor({ state: 'visible', timeout: 5000 });
+      await this.toggleInfoButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch {
       return false;
@@ -176,7 +177,7 @@ export class PackageCard {
 
   async isTableVisible(): Promise<boolean> {
     try {
-      await this.tableContainer.waitFor({ state: 'visible', timeout: 5000 });
+      await this.tableContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch {
       return false;
@@ -185,7 +186,7 @@ export class PackageCard {
 
   async changeTimePeriod(period: TimePeriod): Promise<void> {
     try {
-      await this.timePeriodButton.waitFor({ state: 'visible', timeout: 5000 });
+      await this.timePeriodButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       await this.timePeriodButton.click();
 
       let periodLocator;
@@ -213,7 +214,7 @@ export class PackageCard {
           break;
       }
 
-      await periodLocator.waitFor({ state: 'visible', timeout: 5000 });
+      await periodLocator.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       await periodLocator.click();
     } catch (error) {
       throw new Error(`Time period could not be changed to ${period}: ${error}`);
@@ -222,7 +223,7 @@ export class PackageCard {
 
   async getTimePeriodOption(): Promise<string> {
     try {
-      await this.timePeriodButton.waitFor({ state: 'visible', timeout: 5000 });
+      await this.timePeriodButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return (await this.timePeriodButton.innerText()).trim();
     } catch (error) {
       throw new Error(`Could not get the current time period option: ${error}`);
@@ -239,13 +240,13 @@ export class PackageCard {
 
   async getChartAxisValues(axis: 'x' | 'y'): Promise<string[]> {
     try {
-      await this.chart.waitFor({ state: 'visible', timeout: 5000 });
+      await this.chart.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       const container =
         axis === 'x' ? PackageCard.SELECTORS.chart.xAxisContainer : PackageCard.SELECTORS.chart.yAxisContainer;
 
       const axisTicks = this.page.locator(`${container} tspan`);
-      await axisTicks.first().waitFor({ state: 'visible', timeout: 5000 });
+      await axisTicks.first().waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       const tickValues = await axisTicks.evaluateAll((elements) => elements.map((el) => el.textContent || ''));
 
@@ -360,9 +361,9 @@ export class PackageCard {
 
   async areTooltipDetailsVisible(): Promise<boolean> {
     try {
-      await this.tooltipDate.waitFor({ state: 'visible', timeout: 5000 });
-      await this.tooltipName.waitFor({ state: 'visible', timeout: 5000 });
-      await this.tooltipDownloads.waitFor({ state: 'visible', timeout: 5000 });
+      await this.tooltipDate.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
+      await this.tooltipName.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
+      await this.tooltipDownloads.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch (error) {
       return false;
@@ -371,7 +372,7 @@ export class PackageCard {
 
   async getTooltipDetails(): Promise<TooltipDetails> {
     try {
-      await this.tooltipContainer.waitFor({ state: 'visible', timeout: 5000 });
+      await this.tooltipContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       const date = (await this.tooltipDate.textContent()) || '';
       const rawDownloads = (await this.tooltipDownloads.textContent()) || '';
@@ -404,7 +405,7 @@ export class PackageCard {
 
   async moveToChartCenter(): Promise<void> {
     try {
-      await this.chart.waitFor({ state: 'visible', timeout: 5000 });
+      await this.chart.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       const box = await this.chart.boundingBox();
 
@@ -423,7 +424,7 @@ export class PackageCard {
 
   async moveMouseOnChart(offsetX: number = 0, offsetY: number = 0): Promise<void> {
     try {
-      await this.chart.waitFor({ state: 'visible', timeout: 5000 });
+      await this.chart.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       const box = await this.chart.boundingBox();
       if (!box) {
@@ -466,7 +467,7 @@ export class PackageCard {
         throw new Error(`Element type ${elementType} not found`);
       }
 
-      await element.waitFor({ state: 'visible', timeout: 5000 });
+      await element.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       return element;
     } catch (error) {
@@ -476,7 +477,7 @@ export class PackageCard {
 
   async getTableValueLocators(): Promise<Locator[]> {
     try {
-      await this.tableBody.waitFor({ state: 'visible', timeout: 5000 });
+      await this.tableBody.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       const nominalLocators = await this.tableBody.locator(`${PackageCard.SELECTORS.table.nominalValue}`).all();
       const percentageLocators = await this.tableBody.locator(`${PackageCard.SELECTORS.table.percentageValue}`).all();
@@ -490,7 +491,7 @@ export class PackageCard {
 
   async getTableArrowLocators(): Promise<Locator[]> {
     try {
-      await this.tableBody.waitFor({ state: 'visible', timeout: 5000 });
+      await this.tableBody.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       const greenArrows = await this.tableBody.getByText(`${PackageCard.SELECTORS.table.greenArrow}`).all();
       const redArrows = await this.tableBody.getByText(`${PackageCard.SELECTORS.table.redArrow}`).all();

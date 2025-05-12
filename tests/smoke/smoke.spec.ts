@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { TAGS } from '../../utils/constants';
+import { TAGS, TIMEOUTS } from '../../utils/constants';
 import { HomePage } from '../../pages/HomePage';
 
 test.describe('Smoke tests', { tag: TAGS.SMOKE }, () => {
   let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {
-    test.setTimeout(30000);
+    test.setTimeout(TIMEOUTS.EXTRA_SLOW);
     await page.goto('/');
     homePage = new HomePage(page);
     await page.waitForLoadState('domcontentloaded');

@@ -3,4 +3,5 @@ export const TIMEOUTS = {
   SLOW: 15000,
   NORMAL: 10000,
   FAST: 5000,
+  EXTRA_FAST: 1000,
 } as const;

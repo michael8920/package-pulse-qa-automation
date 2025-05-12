@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { TAGS } from '../../utils/constants';
+import { TAGS, TIMEOUTS } from '../../utils/constants';
 import { HomePage } from '../../pages/HomePage';
 import { TimePeriod } from '../../pages/components/PackageCard';
 
@@ -7,7 +7,7 @@ test.describe('Project analysis flow tests', () => {
   let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {
-    test.setTimeout(30000);
+    test.setTimeout(TIMEOUTS.EXTRA_SLOW);
     await page.goto('/');
     homePage = new HomePage(page);
     await page.waitForLoadState('domcontentloaded');

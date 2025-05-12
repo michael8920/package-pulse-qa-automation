@@ -25,6 +25,7 @@ test.describe('Runtime Performance', () => {
     await page.waitForLoadState('networkidle');
     await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
     await expect(page).toHaveURL(/projects=react.*playwright/);
+
     const additionMetrics = await getLoadMetrics(page);
 
     expect(additionMetrics.ttfb).toBeLessThan(performanceBudgets.timing.ttfb);

@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
 import { PackageCardElement } from '../../pages/components/PackageCard';
 import { prepareForVisualTest } from '../../utils/helpers/visual/visualTestHelpers';
+import { TIMEOUTS } from '../../utils/constants';
 
 test.describe('Layout visual regression tests', () => {
   let homePage: HomePage;
@@ -18,7 +19,7 @@ test.describe('Layout visual regression tests', () => {
     await homePage.searchBar.selectProject('react');
     await expect(homePage.packageCard.isChartVisible()).resolves.toBeTruthy();
 
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(TIMEOUTS.EXTRA_FAST);
     await homePage.packageCard.moveToChartCenter();
 
     const chartElement = await homePage.packageCard.getElement(PackageCardElement.CHART);
@@ -27,7 +28,7 @@ test.describe('Layout visual regression tests', () => {
     await expect(chartElement).toHaveScreenshot(`chart-default.png`, {
       mask: [tooltipElement],
       animations: 'disabled',
-      timeout: 5000,
+      timeout: TIMEOUTS.FAST,
     });
   });
 
@@ -46,7 +47,7 @@ test.describe('Layout visual regression tests', () => {
 
     await expect(tooltipElement).toHaveScreenshot(`tooltip-default.png`, {
       animations: 'disabled',
-      timeout: 5000,
+      timeout: TIMEOUTS.FAST,
     });
   });
 });

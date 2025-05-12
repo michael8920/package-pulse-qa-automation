@@ -1,4 +1,5 @@
 import { Page, Locator } from '@playwright/test';
+import { TIMEOUTS } from '../../utils/constants';
 
 export enum FooterElement {
   CONTAINER = 'container',
@@ -31,7 +32,7 @@ export class Footer {
         throw new Error(`Element type ${elementType} not found`);
       }
 
-      await element.waitFor({ state: 'visible', timeout: 5000 });
+      await element.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       return element;
     } catch (error) {
@@ -41,7 +42,7 @@ export class Footer {
 
   async isFooterVisible(): Promise<boolean> {
     try {
-      await this.footerContainer.waitFor({ state: 'visible', timeout: 5000 });
+      await this.footerContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch {
       return false;

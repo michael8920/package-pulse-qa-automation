@@ -5,6 +5,7 @@ import { prepareForVisualTest } from '../../utils/helpers/visual/visualTestHelpe
 import { FooterElement } from '../../pages/components/Footer';
 import { SearchBarElement } from '../../pages/components/SearchBar';
 import { PackageCardElement } from '../../pages/components/PackageCard';
+import { TIMEOUTS } from '../../utils/constants';
 
 test.describe('Theme visual regression tests', () => {
   let homePage: HomePage;
@@ -28,7 +29,7 @@ test.describe('Theme visual regression tests', () => {
 
       await expect(headerContainer).toHaveScreenshot('header-light-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
       });
     });
 
@@ -44,7 +45,7 @@ test.describe('Theme visual regression tests', () => {
 
       await expect(searchBarContainer).toHaveScreenshot('search-bar-landing-light-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
       });
 
       await homePage.searchBar.selectProject('react');
@@ -53,7 +54,7 @@ test.describe('Theme visual regression tests', () => {
       await expect(searchBarContainer).not.toBeEmpty();
       await expect(searchBarContainer).toHaveScreenshot('search-bar-home-light-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
       });
     });
 
@@ -72,7 +73,7 @@ test.describe('Theme visual regression tests', () => {
       await expect(tableContainer).not.toBeEmpty();
       await expect(tableContainer).toHaveScreenshot('table-light-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
         mask: [...tableValues, ...tableArrows],
       });
     });
@@ -89,7 +90,7 @@ test.describe('Theme visual regression tests', () => {
 
       await expect(footerContainer).toHaveScreenshot('footer-light-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
       });
     });
   });
@@ -107,7 +108,7 @@ test.describe('Theme visual regression tests', () => {
 
       await expect(headerContainer).toHaveScreenshot('header-dark-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
       });
     });
 
@@ -123,7 +124,7 @@ test.describe('Theme visual regression tests', () => {
 
       await expect(searchBarContainer).toHaveScreenshot('search-bar-landing-dark-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
       });
 
       await homePage.searchBar.selectProject('react');
@@ -132,7 +133,7 @@ test.describe('Theme visual regression tests', () => {
       await expect(searchBarContainer).not.toBeEmpty();
       await expect(searchBarContainer).toHaveScreenshot('search-bar-home-dark-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
       });
     });
 
@@ -151,7 +152,7 @@ test.describe('Theme visual regression tests', () => {
       await expect(tableContainer).not.toBeEmpty();
       await expect(tableContainer).toHaveScreenshot('table-dark-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
         mask: [...tableValues, ...tableArrows],
       });
     });
@@ -168,7 +169,7 @@ test.describe('Theme visual regression tests', () => {
 
       await expect(footerContainer).toHaveScreenshot('footer-dark-default.png', {
         animations: 'disabled',
-        timeout: 5000,
+        timeout: TIMEOUTS.FAST,
       });
     });
   });

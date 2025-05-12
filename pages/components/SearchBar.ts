@@ -1,4 +1,5 @@
 import { Page, Locator } from '@playwright/test';
+import { TIMEOUTS } from '../../utils/constants';
 
 export enum SearchBarElement {
   CONTAINER = 'container',
@@ -53,7 +54,7 @@ export class SearchBar {
         throw new Error(`Element type ${elementType} not found`);
       }
 
-      await element.waitFor({ state: 'visible', timeout: 5000 });
+      await element.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
 
       return element;
     } catch (error) {
@@ -63,7 +64,7 @@ export class SearchBar {
 
   async isSearchBarVisible(): Promise<boolean> {
     try {
-      await this.searchBarContainer.waitFor({ state: 'visible', timeout: 5000 });
+      await this.searchBarContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
       return true;
     } catch {
       return false;
