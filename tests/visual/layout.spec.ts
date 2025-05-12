@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
 import { PackageCardElement } from '../../pages/components/PackageCard';
-import { prepareForVisualTest } from '../../utils/visualTestHelpers';
+import { prepareForVisualTest } from '../../utils/helpers/visual/visualTestHelpers';
 
 test.describe('Layout visual regression tests', () => {
   let homePage: HomePage;

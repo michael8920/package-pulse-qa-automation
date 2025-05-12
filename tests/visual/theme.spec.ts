@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
 import { HeaderElement } from '../../pages/components/Header';
-import { prepareForVisualTest } from '../../utils/visualTestHelpers';
+import { prepareForVisualTest } from '../../utils/helpers/visual/visualTestHelpers';
 import { FooterElement } from '../../pages/components/Footer';
 import { SearchBarElement } from '../../pages/components/SearchBar';
 import { PackageCardElement } from '../../pages/components/PackageCard';

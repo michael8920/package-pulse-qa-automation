@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
-import { performanceBudgets } from './config/budgets';
-import { getAssetSize, isOversized, isStaticAsset } from './utils/assets';
+import { performanceBudgets } from '../../utils/constants/performance/budgets';
+import { getAssetSize, isOversized, isStaticAsset } from '../../utils/helpers/performance/assetsTestHelpers';
 
 test.describe('Network tests', () => {
   let homePage: HomePage;

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { getMemoryMetrics, calculateMemoryGrowth } from './utils/metrics';
+import { getMemoryMetrics, calculateMemoryGrowth } from '../../utils/helpers/performance/metricsTestHelpers';
 import { HomePage } from '../../pages/HomePage';
 import { PACKAGES } from '../../utils/constants';
 

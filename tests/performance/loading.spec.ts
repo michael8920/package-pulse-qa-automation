@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { getLoadMetrics } from './utils/metrics';
-import { performanceBudgets } from './config/budgets';
+import { getLoadMetrics } from '../../utils/helpers/performance/metricsTestHelpers';
+import { performanceBudgets } from '../../utils/constants/performance/budgets';
 import { HomePage } from '../../pages/HomePage';
 import { PACKAGES } from '../../utils/constants';
 
