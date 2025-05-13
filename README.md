@@ -2,7 +2,7 @@
 
 ![Package Pulse Logo](assets/logo.ico)
 
-## 🚀 Overview
+## Overview
 
 A focused test suite demonstrating QA automation skills using Playwright and TypeScript. Showcases expertise in:
 
@@ -11,7 +11,7 @@ A focused test suite demonstrating QA automation skills using Playwright and Typ
 - **Cross-Browser**: Consistent behavior across major browsers
 - **Architecture**: Page Object Model and modern testing practices
 
-## ✨ Key Features
+## Key Features
 
 - **Visual Testing**
 
@@ -32,13 +32,13 @@ A focused test suite demonstrating QA automation skills using Playwright and Typ
   - Data loading/rendering
   - User flows
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: Playwright
 - **Language**: TypeScript
 - **Testing**: E2E, Visual Regression, Performance, Smoke
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 tests/
@@ -59,7 +59,7 @@ tests/
     └── smoke.spec.ts      # Critical path validation
 ```
 
-## 🚦 Getting Started
+## Getting Started
 
 1. **Prerequisites**
 
@@ -70,16 +70,14 @@ tests/
 
 2. **Installation & Running**
    ```bash
-   npm install           # Installation
-
+   npm install
    npm test              # Run all tests
-   
    npm run test:visual   # Visual tests only
-   npm run test:performance # Performance tests only
-   npm run test:smoke # Smoke tests only
-   npm run test:e2e # E2E tests only
+   npm run test:performance
+   npm run test:smoke
+   npm run test:e2e
    ```
 
-## 👥 Contact
+## Contact
 
 Michał - michal.sobocinski@hotmail.com
