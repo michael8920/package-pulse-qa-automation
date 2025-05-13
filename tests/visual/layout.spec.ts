@@ -1,3 +1,8 @@
+/**
+ * Visual Regression Tests
+ * Tests for validating consistent visual appearance of UI components
+ */
+
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
 import { PackageCardElement } from '../../pages/components/PackageCard';
@@ -13,6 +18,15 @@ test.describe('Layout visual regression tests', () => {
     await prepareForVisualTest(page);
   });
 
+  /**
+   * Tests chart visual consistency
+   * - Selects a project and verifies chart visibility
+   * - Moves mouse to chart center
+   * - Captures screenshot of chart
+   * - Masks tooltip to prevent flaky comparisons
+   *
+   * @skip Firefox due to rendering differences
+   */
   test('Chart layout remains consistent', async ({ page, browserName }) => {
     test.skip(browserName === 'firefox', 'Skipping Firefox due to rendering differences');
 
@@ -32,6 +46,15 @@ test.describe('Layout visual regression tests', () => {
     });
   });
 
+  /**
+   * Tests tooltip visual consistency
+   * - Selects a project and verifies chart visibility
+   * - Moves mouse to chart center to show tooltip
+   * - Validates tooltip visibility and content
+   * - Captures screenshot of tooltip
+   *
+   * @skip Firefox due to rendering differences
+   */
   test('Tooltip visual appearance remains consistent', async ({ page, browserName }) => {
     test.skip(browserName === 'firefox', 'Skipping Firefox due to rendering differences');
 

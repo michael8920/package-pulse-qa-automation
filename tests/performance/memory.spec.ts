@@ -1,3 +1,8 @@
+/**
+ * Memory Performance Tests
+ * Tests for monitoring and validating JavaScript memory usage
+ */
+
 import { test, expect } from '@playwright/test';
 import { getMemoryMetrics, calculateMemoryGrowth } from '../../utils/helpers/performance/metricsTestHelpers';
 import { HomePage } from '../../pages/HomePage';
@@ -10,6 +15,15 @@ test.describe('Memory tests', () => {
     homePage = new HomePage(page);
   });
 
+  /**
+   * Tests memory usage during project selection
+   * - Measures initial memory usage
+   * - Selects a project and waits for load
+   * - Calculates memory growth
+   * - Validates memory growth is within acceptable limits (30%)
+   *
+   * @skip If memory metrics are not available in the browser
+   */
   test('Memory usage during project selection', async ({ page }) => {
     await page.goto('/');
     const initialMetrics = await getMemoryMetrics(page);

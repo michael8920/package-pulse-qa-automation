@@ -8,6 +8,9 @@
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:smoke": "playwright test tests/smoke",
+    "test:visual": "playwright test tests/visual",
+    "test:performance": "playwright test tests/performance",
+    "test:e2e": "playwright test tests/e2e",
     "report": "playwright show-report",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write ."

@@ -1,3 +1,8 @@
+/**
+ * Home Page Component
+ * Main page object that orchestrates all page components and their interactions
+ */
+
 import { Page } from '@playwright/test';
 import { Header } from './components/Header';
 import { SearchBar } from './components/SearchBar';
@@ -19,6 +24,10 @@ export class HomePage {
     this.footer = new Footer(page);
   }
 
+  /**
+   * Gets the current page URL
+   * @throws Error if URL cannot be retrieved
+   */
   async getCurrentUrl(): Promise<string> {
     try {
       await this.page.waitForLoadState('networkidle');
