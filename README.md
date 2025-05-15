@@ -2,6 +2,11 @@
 
 ![Package Pulse Logo](assets/logo.ico)
 
+## Tested Application
+
+- [Package Pulse Web Application](https://www.package-pulse.com/)
+- [Original Project Repository](https://github.com/Doryski/package-pulse)
+
 ## Overview
 
 A focused test suite demonstrating QA automation skills using Playwright and TypeScript. Showcases expertise in:

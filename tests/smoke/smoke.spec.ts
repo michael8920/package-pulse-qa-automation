@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { TAGS, TIMEOUTS } from '../../utils/constants';
+import { BASE_URLS, TAGS, TIMEOUTS } from '../../utils/constants';
 import { HomePage } from '../../pages/HomePage';
 
 test.describe('Smoke tests', { tag: TAGS.SMOKE }, () => {
@@ -31,7 +31,7 @@ test.describe('Smoke tests', { tag: TAGS.SMOKE }, () => {
     await page.waitForURL('**/?projects=test');
 
     const currentUrl = await homePage.getCurrentUrl();
-    expect(currentUrl).toBe(`https://www.package-pulse.com/?projects=test`);
+    expect(currentUrl).toBe(`${BASE_URLS.PROD}?projects=test`);
 
     expect(await homePage.packageCard.isTimePeriodVisible()).toBeTruthy();
     expect(await homePage.packageCard.isChartVisible()).toBeTruthy();
