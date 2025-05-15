@@ -1,19 +1,12 @@
-/**
- * Header Component
- * Manages the application's header section, including theme switching functionality
- */
-
 import { Page, Locator } from '@playwright/test';
 import { TIMEOUTS } from '../../utils/constants';
 
-/** Available header elements for interaction */
 export enum HeaderElement {
   CONTAINER = 'container',
 }
 export class Header {
   private page: Page;
 
-  /** CSS selectors and ARIA roles for header elements */
   private static readonly SELECTORS = {
     container: 'header.flex',
     themeSelector: {
@@ -45,10 +38,6 @@ export class Header {
     this.themeSelectSystem = this.page.locator(Header.SELECTORS.themeSelector.options.system);
   }
 
-  /**
-   * Changes the application theme
-   * @throws Error if theme selection fails
-   */
   async selectTheme(theme: 'System' | 'Light' | 'Dark'): Promise<void> {
     try {
       await this.themeSelectDropdown.waitFor({ state: 'visible' });
@@ -78,11 +67,6 @@ export class Header {
     }
   }
 
-  /**
-   * Gets the current theme setting
-   * @returns 'light' or 'dark'
-   * @throws Error if theme detection fails
-   */
   async getCurrentTheme(): Promise<'light' | 'dark'> {
     try {
       const colorScheme = (await this.page.locator('html').evaluate((element) => {
@@ -98,7 +82,6 @@ export class Header {
     }
   }
 
-  /** Checks if header is visible on the page */
   async isHeaderVisible(): Promise<boolean> {
     try {
       await this.headerContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -108,10 +91,6 @@ export class Header {
     }
   }
 
-  /**
-   * Gets a header element by type
-   * @throws Error if element not found or not visible
-   */
   async getElement(elementType: HeaderElement): Promise<Locator> {
     try {
       const elementMap: Record<HeaderElement, Locator> = {

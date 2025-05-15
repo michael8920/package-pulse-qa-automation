@@ -1,14 +1,14 @@
 export const performanceBudgets = {
   timing: {
-    ttfb: 200, // Time to First Byte (ms)
-    fcp: 1800, // First Contentful Paint (ms)
-    lcp: 2500, // Largest Contentful Paint (ms)
-    tti: 3800, // Time to Interactive (ms)
+    ttfb: 200, 
+    fcp: 1800, 
+    lcp: 2500, 
+    tti: 3800, 
   },
   resources: {
-    maxRequests: 50, // Maximum number of requests
-    totalSize: 1.5 * 1024 * 1024, // 1.5MB total size
-    maxAssetSize: 1 * 1024 * 1024, // 1MB per asset
-    allowedStatusCodes: [200, 304], // Success and cached
+    maxRequests: 50,
+    totalSize: 1.5 * 1024 * 1024, 
+    maxAssetSize: 1 * 1024 * 1024, 
+    allowedStatusCodes: [200, 304], 
   },
 };

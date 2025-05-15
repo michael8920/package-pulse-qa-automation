@@ -1,14 +1,5 @@
-/**
- * Performance Metrics Helpers
- * Utility functions for measuring page load and memory performance
- */
-
 import { Page } from '@playwright/test';
 
-/**
- * Gets page load performance
- * @returns Object containing TTFB, load time, DOM content loaded time, and FCP
- */
 export async function getLoadMetrics(page: Page) {
   return await page.evaluate(() => {
     const navigationEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
@@ -22,10 +13,6 @@ export async function getLoadMetrics(page: Page) {
   });
 }
 
-/**
- * Gets JavaScript memory usage metrics
- * @returns Object containing heap sizes in bytes and megabytes
- */
 export async function getMemoryMetrics(page: Page) {
   const memory = await page.evaluate(() => {
     const memoryInfo = (performance as any).memory;
@@ -55,10 +42,6 @@ export async function getMemoryMetrics(page: Page) {
   };
 }
 
-/**
- * Calculates memory growth percentage
- * @returns Growth percentage between initial and final memory values
- */
 export async function calculateMemoryGrowth(initial: number, final: number) {
   return (final - initial) / initial;
 }

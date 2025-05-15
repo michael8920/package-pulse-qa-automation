@@ -1,14 +1,8 @@
-/**
- * Package Card Component
- * Manages package statistics visualization, including charts, tooltips and time period controls
- */
-
 import { Page, Locator } from '@playwright/test';
 import { unwatchFile } from 'fs';
 import { parse } from 'path';
 import { TIMEOUTS } from '../../utils/constants';
 
-/** Available time periods for package statistics */
 export enum TimePeriod {
   ALL_TIME = 'All time',
   ONE_MONTH = '1 month',
@@ -18,7 +12,7 @@ export enum TimePeriod {
   TWO_YEARS = '2 years',
   FIVE_YEARS = '5 years',
 }
-/** Available package card elements for interaction */
+
 export enum PackageCardElement {
   CHART = 'chart',
   TOOLTIP = 'tooltip',
@@ -28,7 +22,6 @@ export enum PackageCardElement {
   TABLE = 'table',
 }
 
-/** Structure for tooltip data */
 interface TooltipDetails {
   date: string;
   packageName: string;
@@ -37,7 +30,6 @@ interface TooltipDetails {
 export class PackageCard {
   private page: Page;
 
-  /** CSS selectors and ARIA roles for package card elements */
   private static readonly SELECTORS = {
     timePeriod: {
       button: '#time-period-select',
@@ -147,7 +139,6 @@ export class PackageCard {
     this.tableHead = this.page.locator(PackageCard.SELECTORS.table.head);
   }
 
-  /** Checks if time period selector is visible */
   async isTimePeriodVisible(): Promise<boolean> {
     try {
       await this.timePeriodButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -157,7 +148,6 @@ export class PackageCard {
     }
   }
 
-  /** Checks if chart is visible */
   async isChartVisible(): Promise<boolean> {
     try {
       await this.chart.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -167,7 +157,6 @@ export class PackageCard {
     }
   }
 
-  /** Checks if statistics button is visible */
   async isStatsButtonVisible(): Promise<boolean> {
     try {
       await this.toggleStatsButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -177,7 +166,6 @@ export class PackageCard {
     }
   }
 
-  /** Checks if info button is visible */
   async isInfoButtonVisible(): Promise<boolean> {
     try {
       await this.toggleInfoButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -187,7 +175,6 @@ export class PackageCard {
     }
   }
 
-  /** Checks if table is visible */
   async isTableVisible(): Promise<boolean> {
     try {
       await this.tableContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -197,7 +184,6 @@ export class PackageCard {
     }
   }
 
-  /** Changes time period for package statistics */
   async changeTimePeriod(period: TimePeriod): Promise<void> {
     try {
       await this.timePeriodButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -235,7 +221,6 @@ export class PackageCard {
     }
   }
 
-  /** Gets the currently selected time period option */
   async getTimePeriodOption(): Promise<string> {
     try {
       await this.timePeriodButton.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -245,17 +230,14 @@ export class PackageCard {
     }
   }
 
-  /** Gets current year */
   getCurrentYear(): number {
     return new Date().getFullYear();
   }
 
-  /** Gets current month */
   getCurrentMonth(): number {
     return new Date().getMonth() + 1;
   }
 
-  /** Gets chart axis values from the package chart */
   async getChartAxisValues(axis: 'x' | 'y'): Promise<string[]> {
     try {
       await this.chart.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -274,7 +256,6 @@ export class PackageCard {
     }
   }
 
-  /** Checks if dates on the chart are in the correct year range */
   async areDatesInYearRange(yearsBack: '1 year' | '2 years' | '5 years'): Promise<boolean> {
     try {
       const tickValues = await this.getChartAxisValues('x');
@@ -314,7 +295,6 @@ export class PackageCard {
     }
   }
 
-  /** Checks if dates on the chart are in the correct month range */
   async areDatesInMonthRange(monthsBack: '1 month' | '3 months' | '6 months'): Promise<boolean> {
     try {
       const tickValues = await this.getChartAxisValues('x');
@@ -364,7 +344,6 @@ export class PackageCard {
     }
   }
 
-  /** Checks if tooltip is visible */
   async isTooltipVisible(): Promise<boolean> {
     try {
       const isPresent = (await this.tooltipContainer.count()) > 0;
@@ -380,7 +359,6 @@ export class PackageCard {
     }
   }
 
-  /** Checks if tooltip details are visible */
   async areTooltipDetailsVisible(): Promise<boolean> {
     try {
       await this.tooltipDate.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -392,7 +370,6 @@ export class PackageCard {
     }
   }
 
-  /** Gets tooltip details including date, name and downloads */
   async getTooltipDetails(): Promise<TooltipDetails> {
     try {
       await this.tooltipContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -426,7 +403,6 @@ export class PackageCard {
     }
   }
 
-  /** Moves the mouse to the chart center */
   async moveToChartCenter(): Promise<void> {
     try {
       await this.chart.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -446,7 +422,6 @@ export class PackageCard {
     }
   }
 
-  /** Moves the mouse on chart with optional offset */
   async moveMouseOnChart(offsetX: number = 0, offsetY: number = 0): Promise<void> {
     try {
       await this.chart.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -464,12 +439,10 @@ export class PackageCard {
     }
   }
 
-  /** Validates date string format (YYYY-MM-DD) */
   isValidDateFormat(date: string): boolean {
     return /^\d{4}-\d{2}-\d{2}$/.test(date) && !isNaN(Date.parse(date));
   }
 
-  /** Converts date string to Date object  */
   parseDate(dateString: string): Date {
     if (!this.isValidDateFormat(dateString)) {
       throw new Error(`Invalid date format: ${dateString}`);
@@ -477,7 +450,6 @@ export class PackageCard {
     return new Date(dateString);
   }
 
-  /** Gets a package card element by type */
   async getElement(elementType: PackageCardElement): Promise<Locator> {
     try {
       const elementMap: Record<PackageCardElement, Locator> = {
@@ -503,7 +475,6 @@ export class PackageCard {
     }
   }
 
-  /** Gets all table value locators (nominal and percentage) */
   async getTableValueLocators(): Promise<Locator[]> {
     try {
       await this.tableBody.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -518,7 +489,6 @@ export class PackageCard {
     }
   }
 
-  /** Gets all table arrow locators (up and down) */
   async getTableArrowLocators(): Promise<Locator[]> {
     try {
       await this.tableBody.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });

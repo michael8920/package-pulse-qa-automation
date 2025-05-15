@@ -1,8 +1,3 @@
-/**
- * Theme Visual Regression Tests
- * Tests for validating consistent visual appearance across light and dark themes
- */
-
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
 import { HeaderElement } from '../../pages/components/Header';
@@ -22,13 +17,7 @@ test.describe('Theme visual regression tests', () => {
   });
 
   test.describe('Light theme tests', () => {
-    /**
-     * Tests header appearance in light theme
-     * - Sets theme to light mode
-     * - Verifies theme is applied correctly
-     * - Validates header visibility and content
-     * - Captures screenshot for visual regression
-     */
+  
     test('Header looks correctly in light mode', async ({ page }) => {
       await homePage.header.selectTheme('Light');
       const theme = await homePage.header.getCurrentTheme();
@@ -45,14 +34,6 @@ test.describe('Theme visual regression tests', () => {
       });
     });
 
-    /**
-     * Tests search bar appearance in light theme
-     * - Sets theme to light mode
-     * - Verifies theme is applied correctly
-     * - Tests both landing page and home page states
-     * - Validates search bar visibility and content
-     * - Captures screenshots for both states
-     */
     test('Search bar looks correctly in light mode', async ({ page }) => {
       await homePage.header.selectTheme('Light');
       const theme = await homePage.header.getCurrentTheme();
@@ -78,15 +59,6 @@ test.describe('Theme visual regression tests', () => {
       });
     });
 
-    /**
-     * Tests table appearance in light theme
-     * - Sets theme to light mode
-     * - Verifies theme is applied correctly
-     * - Loads project data
-     * - Validates table visibility and content
-     * - Masks dynamic content (values and arrows)
-     * - Captures screenshot for visual regression
-     */
     test('Table looks correctly in light mode', async ({ page }) => {
       await homePage.header.selectTheme('Light');
       const theme = await homePage.header.getCurrentTheme();
@@ -107,13 +79,6 @@ test.describe('Theme visual regression tests', () => {
       });
     });
 
-    /**
-     * Tests footer appearance in light theme
-     * - Sets theme to light mode
-     * - Verifies theme is applied correctly
-     * - Validates footer visibility and content
-     * - Captures screenshot for visual regression
-     */
     test('Footer looks correctly in light mode', async ({ page }) => {
       await homePage.header.selectTheme('Light');
       const theme = await homePage.header.getCurrentTheme();
@@ -132,13 +97,7 @@ test.describe('Theme visual regression tests', () => {
   });
 
   test.describe('Dark theme tests', () => {
-    /**
-     * Tests header appearance in dark theme
-     * - Sets theme to dark mode
-     * - Verifies theme is applied correctly
-     * - Validates header visibility and content
-     * - Captures screenshot for visual regression
-     */
+  
     test('Header looks correctly in dark mode', async ({ page }) => {
       await homePage.header.selectTheme('Dark');
       const theme = await homePage.header.getCurrentTheme();
@@ -155,14 +114,6 @@ test.describe('Theme visual regression tests', () => {
       });
     });
 
-    /**
-     * Tests search bar appearance in dark theme
-     * - Sets theme to dark mode
-     * - Verifies theme is applied correctly
-     * - Tests both landing page and home page states
-     * - Validates search bar visibility and content
-     * - Captures screenshots for both states
-     */
     test('Search bar looks correctly in dark mode', async ({ page }) => {
       await homePage.header.selectTheme('Dark');
       const theme = await homePage.header.getCurrentTheme();
@@ -188,15 +139,6 @@ test.describe('Theme visual regression tests', () => {
       });
     });
 
-    /**
-     * Tests table appearance in dark theme
-     * - Sets theme to dark mode
-     * - Verifies theme is applied correctly
-     * - Loads project data
-     * - Validates table visibility and content
-     * - Masks dynamic content (values and arrows)
-     * - Captures screenshot for visual regression
-     */
     test('Table looks correctly in dark mode', async ({ page }) => {
       await homePage.header.selectTheme('Dark');
       const theme = await homePage.header.getCurrentTheme();
@@ -217,13 +159,6 @@ test.describe('Theme visual regression tests', () => {
       });
     });
 
-    /**
-     * Tests footer appearance in dark theme
-     * - Sets theme to dark mode
-     * - Verifies theme is applied correctly
-     * - Validates footer visibility and content
-     * - Captures screenshot for visual regression
-     */
     test('Footer looks correctly in dark mode', async ({ page }) => {
       await homePage.header.selectTheme('Dark');
       const theme = await homePage.header.getCurrentTheme();

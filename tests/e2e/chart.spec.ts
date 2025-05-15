@@ -1,8 +1,3 @@
-/**
- * Chart Functionality Tests
- * Tests for package statistics chart interactions and time period controls
- */
-
 import { test, expect } from '@playwright/test';
 import { TAGS, TIMEOUTS } from '../../utils/constants';
 import { HomePage } from '../../pages/HomePage';
@@ -19,12 +14,6 @@ test.describe('Project analysis flow tests', () => {
     await page.waitForLoadState('domcontentloaded');
   });
 
-  /**
-   * Tests time period selection functionality
-   * - Verifies time period selector is visible
-   * - Changes period to 1 year
-   * - Validates date range is correct
-   */
   test('Time period can be changed successfully', async ({ page }) => {
     await homePage.searchBar.selectProject('react');
 
@@ -43,13 +32,6 @@ test.describe('Project analysis flow tests', () => {
     expect(fiveYearRange).toBeFalsy();
   });
 
-  /**
-   * Tests 6-month time period selection
-   * - Verifies period change to 6 months
-   * - Validates date range is correct
-   * - Checks compatibility with year range
-   * @bugged Known issue with 6-month period
-   */
   test('Time period can be successfully changed to 6 months', { tag: TAGS.BUGGED }, async ({ page }) => {
     await homePage.searchBar.selectProject('react');
 
@@ -68,11 +50,6 @@ test.describe('Project analysis flow tests', () => {
     expect(oneYearRange).toBeTruthy();
   });
 
-  /**
-   * Tests 5-year time period selection
-   * - Verifies period change to 5 years
-   * - Validates date range is correct
-   */
   test('Time period can be successfully changed to 5 years', async ({ page }) => {
     await homePage.searchBar.selectProject('react');
 
@@ -88,11 +65,6 @@ test.describe('Project analysis flow tests', () => {
     expect(fiveYearsRange).toBeTruthy();
   });
 
-  /**
-   * Tests chart tooltip functionality
-   * - Verifies tooltip appears on hover
-   * - Validates tooltip content (package name, downloads, date)
-   */
   test('Details pop up shows correct information on chart mouse hover', async ({ page }) => {
     await homePage.searchBar.selectProject('react');
     await page.waitForTimeout(TIMEOUTS.FAST);
@@ -111,12 +83,6 @@ test.describe('Project analysis flow tests', () => {
     expect(homePage.packageCard.isValidDateFormat(details.date)).toBeTruthy();
   });
 
-  /**
-   * Tests chart tooltip updates on mouse movement
-   * - Verifies tooltip updates with mouse position
-   * - Validates date progression
-   * - Checks data consistency across positions
-   */
   test('Details pop up correctly updates information on mouse position change', async ({ page }) => {
     await homePage.searchBar.selectProject('react');
     await page.waitForTimeout(TIMEOUTS.FAST);

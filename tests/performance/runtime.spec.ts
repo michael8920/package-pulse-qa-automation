@@ -1,8 +1,3 @@
-/**
- * Runtime Performance Tests
- * Tests for validating application performance during runtime operations
- */
-
 import { test, expect } from '@playwright/test';
 import { getLoadMetrics } from '../../utils/helpers/performance/metricsTestHelpers';
 import { performanceBudgets } from '../../utils/constants/performance/budgets';
@@ -16,18 +11,6 @@ test.describe('Runtime Performance', () => {
     homePage = new HomePage(page);
   });
 
-  /**
-   * Tests performance during rapid project additions
-   * - Loads initial page and selects first project
-   * - Measures baseline performance metrics
-   * - Adds second project
-   * - Validates performance metrics against budgets
-   *
-   * Validates:
-   * - TTFB meets performance budget
-   * - load time meets performance budget
-   * - Second project load time is within 20% of baseline
-   */
   test('Rapid project addition performance', async ({ page }) => {
     await page.goto('/');
 

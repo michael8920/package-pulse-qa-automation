@@ -1,12 +1,6 @@
-/**
- * Search Bar Component
- * Handles project search functionality and dropdown interactions
- */
-
 import { Page, Locator } from '@playwright/test';
 import { TIMEOUTS } from '../../utils/constants';
 
-/** Available search bar elements for interaction */
 export enum SearchBarElement {
   CONTAINER = 'container',
   INPUT = 'input',
@@ -17,7 +11,6 @@ export enum SearchBarElement {
 export class SearchBar {
   private page: Page;
 
-  /** CSS selectors and ARIA roles for search bar elements */
   private static readonly SELECTORS = {
     searchBar: {
       container: 'form.flex.flex-col.gap-4',
@@ -44,10 +37,6 @@ export class SearchBar {
     this.searchBarContainer = this.page.locator(SearchBar.SELECTORS.searchBar.container);
   }
 
-  /**
-   * Gets a search bar element by type
-   * @throws Error if element not found or not visible
-   */
   async getElement(elementType: SearchBarElement): Promise<Locator> {
     try {
       const elementMap: Record<SearchBarElement, Locator> = {
@@ -72,7 +61,6 @@ export class SearchBar {
     }
   }
 
-  /** Checks if search bar is visible */
   async isSearchBarVisible(): Promise<boolean> {
     try {
       await this.searchBarContainer.waitFor({ state: 'visible', timeout: TIMEOUTS.FAST });
@@ -82,11 +70,6 @@ export class SearchBar {
     }
   }
 
-  /**
-   * Searches for a project by name
-   * @returns Locator for the matching search result
-   * @throws Error if search fails
-   */
   async searchForProject(name: string): Promise<Locator> {
     try {
       await this.inputField.waitFor({ state: 'visible' });
@@ -107,10 +90,6 @@ export class SearchBar {
     }
   }
 
-  /**
-   * Selects a project from search results
-   * @throws Error if selection fails
-   */
   async selectProject(name: string): Promise<void> {
     try {
       const result = await this.searchForProject(name);

@@ -1,7 +1,3 @@
-/**
- * Smoke Tests
- * Basic functionality tests to verify critical aplication features
- */
 import { test, expect } from '@playwright/test';
 import { TAGS, TIMEOUTS } from '../../utils/constants';
 import { HomePage } from '../../pages/HomePage';
@@ -16,13 +12,6 @@ test.describe('Smoke tests', { tag: TAGS.SMOKE }, () => {
     await page.waitForLoadState('domcontentloaded');
   });
 
-  /**
-   * Tests theme switching functionality
-   * - Verifies initial theme is light
-   * - Changes theme to dark
-   * - Changes theme back to light
-   * - Validates theme changes are applied correctly
-   */
   test('Theme can be changed successfully', async ({ page }) => {
     const initialTheme = await homePage.header.getCurrentTheme();
     expect(initialTheme).toBe('light');
@@ -36,17 +25,6 @@ test.describe('Smoke tests', { tag: TAGS.SMOKE }, () => {
     expect(lightTheme).toBe('light');
   });
 
-  /**
-   * Tests project search functionality
-   * - Searches for a test project
-   * - Validates URL updates correctly
-   * - Verifies all package card elements are visible:
-   *   - Time period selector
-   *   - Chart
-   *   - Info button
-   *   - Stats button
-   *   - Data table
-   */
   test('Searching for project can be performed successfully', async ({ page }) => {
     await homePage.searchBar.selectProject('test');
 
